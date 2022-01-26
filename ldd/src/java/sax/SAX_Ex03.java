@@ -13,66 +13,59 @@ import org.xml.sax.helpers.DefaultHandler;
  * Baseado no arquivo bibliography.xml, implementar programas na linguagem de programação Java utilizando SAX que selecionem as 
  * seguintes informações:
  * 
- * 2. Quantos livros possuem mais de um autor?
+ * 3. Qual a média de preços dos livros da categoria SO?
  * 
  */
 
-public class SAX_Ex02 extends DefaultHandler{
+public class SAX_Ex03 extends DefaultHandler{
     
-    private int qAuthors = 0;
-    private String title;
-    private boolean bTitle = false;
-    private int qCountAuthor = 0;
+    private double sumPrices = 0;   
+    private int countPrices = 0;
+    private boolean bBook = false;
+    private boolean bPrice = false;
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        switch(qName){
-            case "title":
-                bTitle = true;
+        switch (qName){
+            case "book":
+                if(attributes.getValue("category").equals("SO")){
+                    bBook = true;
+                }
                 break;
-            case "author":
-                qAuthors++;
-                break;        
+            case "price":
+                if(bBook){
+                    bPrice = true;
+                }
+                break;
         }
-        
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-       if(qName.equalsIgnoreCase("book")){
-           
-            if (qAuthors > 1){ 
-                qCountAuthor++;
-            }
-            qAuthors = 0;
-            title = "";
-       }
+    public void endDocument() throws SAXException {
+        System.out.println("Média de preços dos livros da categoria SO? " 
+                +sumPrices / countPrices);
     }
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
-        if (bTitle) {
-            title = new String (ch, start, length);
-        }
-        bTitle = false;        
-    }
-    
-    public void quantBookAuthor(){
-        System.out.println("Quantos livros possuem mais de um autor? " + qCountAuthor);
-    }
-    
+        if (bPrice) {
+            String value = new String(ch, start, length);
+            sumPrices += Double.parseDouble(value);
+            countPrices++;
+            bBook = false;
+        }  
+        bPrice = false;
+    }    
     
     public static void main(String[] args) {
         File inputFile = new File("web/bibliography.xml");
-        SAX_Ex02 userhandler = new SAX_Ex02();
+        SAX_Ex03 userhandler = new SAX_Ex03();
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
-            saxParser.parse(inputFile, userhandler);
-            userhandler.quantBookAuthor();
+            saxParser.parse(inputFile, userhandler);            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
 }
