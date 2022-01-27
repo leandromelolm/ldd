@@ -34,9 +34,11 @@ public class SAX2 extends DefaultHandler {
     public void characters(char[] ch, int start, int length) throws SAXException {
         if (bTitle) {
             currentTitle = new String(ch, start, length);
+            System.out.print("Title: " + currentTitle);
         }
         if (bYear) {
             currentYear = Integer.parseInt(new String(ch, start, length));
+            System.out.println(", Year: " + currentYear);            
         }
 
         bTitle = false;
@@ -55,6 +57,7 @@ public class SAX2 extends DefaultHandler {
 
     @Override
     public void endDocument() throws SAXException {
+        System.out.println("\nTítulo mais antigo: ");
         System.out.println(oldestTitle);
         System.out.println(oldestYear);
     }

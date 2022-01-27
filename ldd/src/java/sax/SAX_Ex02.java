@@ -36,6 +36,12 @@ public class SAX_Ex02 extends DefaultHandler{
         }
         
     }
+    
+    @Override
+    public void endDocument() throws SAXException {
+        System.out.println("Quantos livros possuem mais de um autor? " 
+                + qCountAuthor);
+    }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
@@ -57,11 +63,6 @@ public class SAX_Ex02 extends DefaultHandler{
         bTitle = false;        
     }
     
-    public void quantBookAuthor(){
-        System.out.println("Quantos livros possuem mais de um autor? " + qCountAuthor);
-    }
-    
-    
     public static void main(String[] args) {
         File inputFile = new File("web/bibliography.xml");
         SAX_Ex02 userhandler = new SAX_Ex02();
@@ -69,7 +70,7 @@ public class SAX_Ex02 extends DefaultHandler{
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             saxParser.parse(inputFile, userhandler);
-            userhandler.quantBookAuthor();
+           
         } catch (Exception e) {
             e.printStackTrace();
         }
