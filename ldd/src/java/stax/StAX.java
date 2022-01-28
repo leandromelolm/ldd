@@ -1,4 +1,4 @@
-package bibliography;
+package stax;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
