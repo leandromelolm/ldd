@@ -6,6 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -98,6 +103,8 @@ public class StAX_1 {
 //                        System.out.println(vendor);
 //                        System.out.println(quantityInStock);
 //                        System.out.println(buyPrice);
+                        
+                        
 
                         xMLStreamWriter.writeStartElement("tr");
                         xMLStreamWriter.writeStartElement("td");

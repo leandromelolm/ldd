@@ -5,6 +5,13 @@ import java.io.IOException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -12,11 +19,17 @@ import org.xml.sax.SAXException;
 
 public class DOM_2 {
     
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
+        
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = db.parse(new File("web/products.xml"));
+        
+        Document out = db.newDocument();
+        
         NodeList products = doc.getElementsByTagName("product");
+        Element ol = out.createElement("ol");
+        out.appendChild(ol);
         for (int i = 0; i < products.getLength(); i++) {
             Element product = (Element) products.item(i);
 //            NodeList names = product.getElementsByTagName("name");
@@ -36,7 +49,18 @@ public class DOM_2 {
             System.out.print(" (");
             System.out.print(percentual + "%");
             System.out.println(")");
+            
+            Element li = out.createElement("li");
+            ol.appendChild(li);
+            li.setTextContent(eName.getTextContent() + " (" + percentual + "%)");
         }
+        
+        TransformerFactory transformeFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformeFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        DOMSource source = new DOMSource(out);
+        StreamResult result = new StreamResult(new File ("Q2.xml"));
+        transformer.transform(source, result);
     }
     
 }
