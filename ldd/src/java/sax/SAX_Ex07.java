@@ -15,11 +15,11 @@ import org.xml.sax.helpers.DefaultHandler;
  * Baseado no arquivo bibliography.xml, implementar programas na linguagem de programação Java utilizando SAX que selecionem as 
  * seguintes informações:
  * 
- * 6. Quantos autores começam com a letra 'A'?
+ * 7. Quais autores começam com a letra 'A'?
  * 
  */
 
-public class SAX_Ex06 extends DefaultHandler{
+public class SAX_Ex07 extends DefaultHandler{
     
     private boolean ttauthor;
     private List<String> autores = new ArrayList();
@@ -45,6 +45,7 @@ public class SAX_Ex06 extends DefaultHandler{
         if(ttauthor) {
             if (!autores.contains(nome) && nome.startsWith("A")) {
                 autores.add(nome);
+                System.out.println(nome);
             }
             ttauthor = false;
         }
@@ -56,13 +57,11 @@ public class SAX_Ex06 extends DefaultHandler{
 
     @Override
     public void endDocument() {
-        System.out.println("Quantos autores começam com a letra 'A'?");
-        System.out.println(autores.size());
-    }        
+    }
     
     public static void main(String[] args) {
         File inputFile = new File("web/bibliography.xml");
-        SAX_Ex06 userhandler = new SAX_Ex06();
+        SAX_Ex07 userhandler = new SAX_Ex07();
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
@@ -77,7 +76,9 @@ public class SAX_Ex06 extends DefaultHandler{
 /**
  * 
  * 
- * SAÍDA CONSOLE : 2
+ * SAÍDA CONSOLE : 
+    Andrew S. Tanenbaum
+    Abraham Silberschatz
  * 
  *  
  <bibliography xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
