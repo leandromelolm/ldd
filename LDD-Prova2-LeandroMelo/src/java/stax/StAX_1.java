@@ -28,6 +28,7 @@ public class StAX_1 {
         
         XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newFactory();
         Writer writer = new FileWriter("Q1.xml");
+//        Writer writer = new FileWriter("Q1.html");
         XMLStreamWriter xMLStreamWriter = xMLOutputFactory.createXMLStreamWriter(writer);
         
         
