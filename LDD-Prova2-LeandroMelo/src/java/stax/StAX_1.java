@@ -27,14 +27,20 @@ public class StAX_1 {
         XMLStreamReader xmlsr = xmlif.createXMLStreamReader(reader);
         
         XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newFactory();
-        Writer writer = new FileWriter("Q1.html");
+        Writer writer = new FileWriter("Q1.xml");
         XMLStreamWriter xMLStreamWriter = xMLOutputFactory.createXMLStreamWriter(writer);
         
         
         boolean bName = false;
         boolean bLine = false;
+        boolean bVendor = false;
+        boolean bQuantityInStock = false;
+        boolean bBuyPrice = false;
         String name = null;
         String line = null;
+        String vendor = null;
+        String quantityInStock = null;
+        String buyPrice = null;
         
         xMLStreamWriter.writeStartElement("table");
         xMLStreamWriter.writeStartElement("thead");
@@ -44,6 +50,15 @@ public class StAX_1 {
         xMLStreamWriter.writeEndElement();
         xMLStreamWriter.writeStartElement("th");
         xMLStreamWriter.writeCharacters("Line");
+        xMLStreamWriter.writeEndElement();
+        xMLStreamWriter.writeStartElement("th");
+        xMLStreamWriter.writeCharacters("Vendor");
+        xMLStreamWriter.writeEndElement();
+        xMLStreamWriter.writeStartElement("th");
+        xMLStreamWriter.writeCharacters("Quantity in Stock");
+        xMLStreamWriter.writeEndElement();
+        xMLStreamWriter.writeStartElement("th");
+        xMLStreamWriter.writeCharacters("Buy Price");
         xMLStreamWriter.writeEndElement();
         xMLStreamWriter.writeEndElement();
         xMLStreamWriter.writeEndElement();
@@ -61,19 +76,43 @@ public class StAX_1 {
                     if (nome.equals("line")){
                         bLine = true;
                     }
+                    if (nome.equals("vendor")){
+                        bVendor = true;
+                    }
+                    if (nome.equals("quantityInStock")){
+                        bQuantityInStock = true;
+                    }
+                    if (nome.equals("buyPrice")){
+                        bBuyPrice = true;
+                    }
                     break;
+                    
                 case XMLStreamReader.END_ELEMENT:
                     nome = xmlsr.getLocalName();
 //                    System.out.println(nome);
                     if (nome.equals("product")){
+                        
 //                        System.out.println(name);  
 //                        System.out.println(line);
+//                        System.out.println(vendor);
+//                        System.out.println(quantityInStock);
+//                        System.out.println(buyPrice);
+
                         xMLStreamWriter.writeStartElement("tr");
                         xMLStreamWriter.writeStartElement("td");
                         xMLStreamWriter.writeCharacters(name);
                         xMLStreamWriter.writeEndElement();
                         xMLStreamWriter.writeStartElement("td");
                         xMLStreamWriter.writeCharacters(line);
+                        xMLStreamWriter.writeEndElement();
+                        xMLStreamWriter.writeStartElement("td");
+                        xMLStreamWriter.writeCharacters(vendor);
+                        xMLStreamWriter.writeEndElement();                        
+                        xMLStreamWriter.writeStartElement("td");
+                        xMLStreamWriter.writeCharacters(quantityInStock);
+                        xMLStreamWriter.writeEndElement();                        
+                        xMLStreamWriter.writeStartElement("td");
+                        xMLStreamWriter.writeCharacters(buyPrice);
                         xMLStreamWriter.writeEndElement();
                         xMLStreamWriter.writeEndElement();
                         
@@ -88,8 +127,20 @@ public class StAX_1 {
                     if (bLine){
                         line = xmlsr.getText();
                     }
+                    if (bVendor){
+                        vendor = xmlsr.getText();
+                    }
+                    if (bQuantityInStock){
+                        quantityInStock = xmlsr.getText();
+                    }
+                    if (bBuyPrice){
+                        buyPrice = xmlsr.getText();
+                    }
                     bLine = false;
                     bName = false;
+                    bVendor = false;
+                    bQuantityInStock = false;
+                    bBuyPrice = false;
                     break;                
             }
         }
