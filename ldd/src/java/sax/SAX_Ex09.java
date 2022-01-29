@@ -15,20 +15,32 @@ import org.xml.sax.helpers.DefaultHandler;
  * Baseado no arquivo bibliography.xml, implementar programas na linguagem de programação Java utilizando SAX que selecionem as 
  * seguintes informações:
  * 
- * 8. Quais os nomes dos livros em português?
+ * 9. A média de preço dos livros em português é maior que dos livros em inglês?
  * 
  */
 
-public class SAX_Ex08 extends DefaultHandler{
+public class SAX_Ex09 extends DefaultHandler{
     
-     private boolean tttitle;
+     private boolean ttpt;
+    private boolean tten;
+    private boolean ttprice;
+    private double sumReal = 0, qtdReal = 0, sumDolar = 0, qtdDolar = 0;
 
     @Override
     public void startElement(String uri, String localName, String qName,
             Attributes attributes) throws SAXException {
 
-        if (qName.equalsIgnoreCase("TITLE") && attributes.getValue("lang").equalsIgnoreCase("pt-br")) {
-            tttitle = true;
+        if (qName.equalsIgnoreCase("TITLE")) {
+            if(attributes.getValue("lang").equalsIgnoreCase("pt-br")) {
+                ttpt = true;
+            }
+            if(attributes.getValue("lang").equalsIgnoreCase("en")) {
+                tten = true;
+            }
+        }
+        
+        if (qName.equalsIgnoreCase("PRICE")) {
+            ttprice = true;
         }
     }
 
@@ -40,9 +52,19 @@ public class SAX_Ex08 extends DefaultHandler{
 
     @Override
     public void characters(char ch[], int start, int length) throws SAXException {
-        if(tttitle) {
-            System.out.println(new String(ch, start, length));
-            tttitle = false;
+        if(ttprice) {
+            double price = Double.parseDouble(new String(ch, start, length));
+            if(ttpt) {
+                sumReal += price;
+                qtdReal++;
+                ttpt = false;
+            }
+            if(tten) {
+                sumDolar += price;
+                qtdDolar++;
+                tten = false;
+            }
+            ttprice = false;
         }
     }
 
@@ -52,11 +74,13 @@ public class SAX_Ex08 extends DefaultHandler{
 
     @Override
     public void endDocument() {
+        System.out.println("A média de preço dos livros em português é maior que dos livros em inglês?");
+        System.out.println(sumReal / qtdReal > sumDolar / qtdDolar);
     }
     
     public static void main(String[] args) {
         File inputFile = new File("web/bibliography.xml");
-        SAX_Ex08 userhandler = new SAX_Ex08();
+        SAX_Ex09 userhandler = new SAX_Ex09();
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
@@ -72,12 +96,8 @@ public class SAX_Ex08 extends DefaultHandler{
  * 
  * 
  * SAÍDA CONSOLE : 
-    C: Como Programar
-    Organização Estruturada de Computadores
-    Sistemas de Banco de Dados
-    Engenharia de Software
-    Utilizando UML e Padrões: Uma Introdução à Análise e Projeto Orientados a Objetos e ao Processo Unificado
-    Sistemas Operacionais Modernos
+    A média de preço dos livros em português é maior que dos livros em inglês?
+    true
  * 
  *  
  <bibliography xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
