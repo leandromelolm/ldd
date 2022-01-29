@@ -26,12 +26,14 @@ public class StAX {
     public static void main(String[] args) {
         StAX stax = new StAX("web/bibliography.xml");
         try {
-            stax.exercicio1a();
+//            stax.exercicio1a();
+            stax.exercicio1h();
         } catch (XMLStreamException ex) {
             Logger.getLogger(StAX.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+//    1. Qual o nome dos livros que possuem mais de um autor?
     public void exercicio1a() throws XMLStreamException {
         int qtd = 0;
         String title = "";
@@ -57,7 +59,8 @@ public class StAX {
             }
         }
     }
-
+    
+//    2. Quantos livros possuem mais de um autor?
     public void exercicio1b() throws XMLStreamException {
         int qtd = 0, qtdLivros = 0;
         while (xsr.hasNext()) {
@@ -81,7 +84,8 @@ public class StAX {
             }
         }
     }
-
+    
+//    3. Qual a média de preços dos livros da categoria SO?
     public void exercicio1c() throws XMLStreamException {
         boolean ok = false;
         double price = 0;
@@ -105,6 +109,7 @@ public class StAX {
         }
     }
 
+//    4. Quantos livros a partir de 2010 possuem preço maior que 150?
     public void exercicio1d() throws XMLStreamException {
         boolean year = false, price = false;
         int count = 0;
@@ -143,6 +148,7 @@ public class StAX {
         }
     }
 
+//    5. Quantos livros da categoria LP estão em inglês?
     public void exercicio1e() throws XMLStreamException {
         boolean cat = false, lang = false;
         int count = 0;
@@ -171,7 +177,8 @@ public class StAX {
             }
         }
     }
-
+    
+//    6. Quantos autores começam com a letra 'A'?
     public void exercicio1f() throws XMLStreamException {
         List<String> autores = new ArrayList();
         while (xsr.hasNext()) {
@@ -192,6 +199,7 @@ public class StAX {
         }
     }
     
+//     7. Quais autores começam com a letra 'A'?
     public void exercicio1g() throws XMLStreamException {
         List<String> autores = new ArrayList();
         while (xsr.hasNext()) {
@@ -210,6 +218,7 @@ public class StAX {
         }
     }
     
+    // Iniciais do livro
     public void exercicio1h() throws XMLStreamException {
         List<String> autores = new ArrayList();
         while (xsr.hasNext()) {
@@ -218,13 +227,14 @@ public class StAX {
                 case XMLStreamReader.START_ELEMENT:
                     if (xsr.getLocalName().equals("title")) {
                         String nome = xsr.getElementText();
-                        if (!autores.contains(nome) && nome.startsWith("A")) {
+                        if (!autores.contains(nome) && nome.startsWith("S")) {
                             autores.add(nome);
                             System.out.println(nome);
-                        }
-                    }
+                        }                        
+                    }                    
                     break;
             }
         }
+        System.out.println(autores);
     }
 }
