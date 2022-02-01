@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--XML Schema-->
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+    <xs:element name="employees">
+        <xs:complexType>
+            <xs:sequence>                               
+                <xs:element name="employee" type="tEmployee" maxOccurs="unbounded" />     
+            </xs:sequence>
+        </xs:complexType>
+        <xs:key name="uniqueEmployeeNumber">
+            <xs:selector xpath="employee"/>
+            <xs:field xpath="@number"/>
+        </xs:key>
+        <xs:keyref name="ReportsToRef" refer="uniqueEmployeeNumber">
+            <xs:selector xpath="employee"/>
+            <xs:field xpath="reportsTo"/>
+        </xs:keyref>
+        <xs:unique name="codNumber">
+            <xs:selector xpath="employee"/>
+            <xs:field xpath="@number"/>
+        </xs:unique>
+    </xs:element>        
+    <xs:complexType name="tEmployee">
+        <xs:all>
+            <xs:element name="lastName" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="firstName" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="extension" type="tExtension" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="email" type="tEmail"/>          
+            <xs:element name="officeCode" type="xs:integer"/>
+            <xs:element name="jobTitle" type="xs:string"/>
+            <xs:element name="reportsTo" type="xs:integer"  minOccurs="0" maxOccurs="1"/>
+        </xs:all>      
+        <xs:attribute  name="number" type="xs:integer" /> 
+    </xs:complexType>
+    <xs:simpleType name="tExtension"> 
+        <xs:restriction base="xs:string">
+            <xs:minLength value="4" />
+            <xs:maxLength value="5"/>
+            <xs:pattern value="[x][0-9]*"/>                       
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="tEmail"> 
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="254"/>
+            <xs:pattern value="[_\-a-zA-Z0-9\.\+]*[@][a-zA-Z0-9](\.?[\-a-zA-Z0-9])*"/>                       
+        </xs:restriction>
+    </xs:simpleType>   
+            
+    <!--    <xs:simpleType name= "tReportsTo">
+        <xs:restriction base="xs:integer">
+            <xs:enumeration value="1002" />
+            <xs:enumeration value="1056" />
+            <xs:enumeration value="1102" />
+            <xs:enumeration value="1143" />
+            <xs:enumeration value="1088" />
+            <xs:enumeration value="1621" />                                              
+        </xs:restriction>
+    </xs:simpleType>-->
+</xs:schema>
