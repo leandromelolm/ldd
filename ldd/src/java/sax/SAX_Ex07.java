@@ -46,9 +46,19 @@ public class SAX_Ex07 extends DefaultHandler{
             if (!autores.contains(nome) && nome.startsWith("A")) {
                 autores.add(nome);
                 System.out.println(nome);
+//                System.out.println(autores.get(0));
+                
+
             }
+            if (!autores.contains(nome) && nome.startsWith("B")) {
+                autores.add(nome);
+                System.out.println(nome);
+//                System.out.println(autores.get(0));
+                
+
+            }            
             ttauthor = false;
-        }
+        }        
     }
 
     @Override
@@ -57,6 +67,7 @@ public class SAX_Ex07 extends DefaultHandler{
 
     @Override
     public void endDocument() {
+        System.out.println(autores.size());
     }
     
     public static void main(String[] args) {
