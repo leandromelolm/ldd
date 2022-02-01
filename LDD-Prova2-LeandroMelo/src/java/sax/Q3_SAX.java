@@ -23,7 +23,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * 
  */
 
-public class SAX_3 extends DefaultHandler{
+public class Q3_SAX extends DefaultHandler{
     
     boolean bVendor = false;
     private List<String> vendors =  new ArrayList();
@@ -101,7 +101,7 @@ public class SAX_3 extends DefaultHandler{
     
     public static void main(String[] args) throws IOException, XMLStreamException {
         File inputFile = new File("web/products.xml");
-        SAX_3 userhandler = new SAX_3();
+        Q3_SAX userhandler = new Q3_SAX();
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
@@ -113,8 +113,8 @@ public class SAX_3 extends DefaultHandler{
 //        XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newFactory();
         XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newInstance(); 
         
-//        Writer writer = new FileWriter("Q3.xml");
-        Writer writer = new FileWriter("Q3.html");
+//        Writer writer = new FileWriter("web/Q3_SAX.xml");
+        Writer writer = new FileWriter("web/Q3_SAX.html");
         
 //        XMLStreamWriter xMLStreamWriter = xMLOutputFactory.createXMLStreamWriter(writer);
         XMLStreamWriter xMLStreamWriter = new IndentingXMLStreamWriter(xMLOutputFactory.createXMLStreamWriter(writer));

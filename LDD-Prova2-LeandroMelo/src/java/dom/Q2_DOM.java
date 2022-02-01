@@ -68,11 +68,8 @@ public class Q2_DOM {
         });
         
         // ORDENADO PELO PERCENTUAL
-        for (Product p : produtos) {
-            System.out.print(p.getName());
-            System.out.print(" (");
-            System.out.print(p.getPercentual() + "%");
-            System.out.println(")");
+        for (Product p : produtos) {                       
+            System.out.println(p.getName()+" ("+p.getPercentual()+"%)");            
             
             Element li = out.createElement("li");
             ol.appendChild(li);
