@@ -2,6 +2,8 @@ package dom;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +19,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * 
+ * b) Gerar uma lista ordenada em HTML com o nome do produto e o percentual do preço
+ * comprado sobre o preço sugerido, ordenado de forma decrescente pelo percentual
+ * 
+ */
+
 public class DOM_2 {
+    
+    private List<Product> produtos = new ArrayList();
     
     public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, TransformerConfigurationException, TransformerException {
         
@@ -32,37 +43,62 @@ public class DOM_2 {
         out.appendChild(ol);
         for (int i = 0; i < products.getLength(); i++) {
             Element product = (Element) products.item(i);
-//            NodeList names = product.getElementsByTagName("name");
-//            NodeList buyPrice = product.getElementsByTagName("buyPrice");            
-            
             Element eName = (Element) product.getElementsByTagName("name").item(0);
-            
             Element eBuyPrice = (Element) product.getElementsByTagName("buyPrice").item(0);            
-            Double dBuyPrice = Double.parseDouble(eBuyPrice.getTextContent());
-             
+            Double dBuyPrice = Double.parseDouble(eBuyPrice.getTextContent());             
             Element eMSRP = (Element) product.getElementsByTagName("MSRP").item(0);             
-            Double dMSRP = Double.parseDouble(eMSRP.getTextContent());
+            Double dMSRP = Double.parseDouble(eMSRP.getTextContent());            
+            int percentual = (int) Math.round(dBuyPrice/dMSRP*100);  
             
-            int percentual = (int) Math.round(dBuyPrice/dMSRP*100);
-             
+            
             System.out.print(eName.getTextContent());
             System.out.print(" (");
             System.out.print(percentual + "%");
-            System.out.println(")");
-            
+            System.out.println(")");            
             Element li = out.createElement("li");
             ol.appendChild(li);
             li.setTextContent(eName.getTextContent() + " (" + percentual + "%)");
+//            produtos.add(new Product(eName.toString(), percentual));
         }
+        
+        for (int i = 0; i < products.getLength(); i++) {}        
         
         TransformerFactory transformeFactory = TransformerFactory.newInstance();
         Transformer transformer = transformeFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         DOMSource source = new DOMSource(out);
-        StreamResult result = new StreamResult(new File ("Q2.xml"));
+        StreamResult resultXML = new StreamResult(new File ("Q2.xml"));
+        StreamResult result = new StreamResult(new File ("Q2.html"));
         transformer.transform(source, result);
+        transformer.transform(source, resultXML);
     }
     
+}
+
+class Product {
+    private String name;
+    private int percentual;
+
+    public Product(String name, int percentual) {
+        this.name = name;
+        this.percentual = percentual;
+    }
+    
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPercentual() {
+        return percentual;
+    }
+
+    public void setPercentual(int percentual) {
+        this.percentual = percentual;
+    }
 }
 
 
@@ -71,6 +107,10 @@ public class DOM_2 {
  * usando a classe Document , preenchendo-a com o resultado e depois a serializando.
  * 
  */
+
+
+
+
 
 /*
 
