@@ -87,7 +87,7 @@ class Product implements Comparable<Product> {
     }
 }
 
-public class StAX_1 {
+public class Q1_StAX {
 
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException, IOException {
         XMLInputFactory xmlif = XMLInputFactory.newFactory();
