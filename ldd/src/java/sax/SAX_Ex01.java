@@ -41,8 +41,9 @@ public class SAX_Ex01 extends DefaultHandler{
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-       if(qName.equalsIgnoreCase("book")){
+    public void endElement(String uri, String localName, String qName) throws SAXException {      
+        
+        if(qName.equalsIgnoreCase("book")){
            
             if (qAuthors > 1){
                 System.out.println(title);        
