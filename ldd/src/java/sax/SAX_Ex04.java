@@ -25,14 +25,8 @@ public class SAX_Ex04 extends DefaultHandler{
     private int year;
     private int qtd;
 
-    private boolean tttprice;
-
     private boolean bTitle = false;
     private String title;
-    private boolean bYear = false;
-    private int yearBook;
-    private boolean bPrice = false;
-    private double priceBook;
 
     @Override
     public void startDocument() throws SAXException {}
@@ -47,27 +41,16 @@ public class SAX_Ex04 extends DefaultHandler{
         if (qName.equalsIgnoreCase("YEAR")) {
             ttyear = true;
         }
-
         
-        /**
-         * *******EXTRA*******
-         */
-        
-        if (qName.equalsIgnoreCase("PRICE")) {
-            tttprice = true;
+        if (qName.equalsIgnoreCase("TITLE")){
+            bTitle = true;        
         }
 
-        switch (qName) {
-            case "title":
-                bTitle = true;
-                break;
-            case "year":
-                bYear = true;
-                break;
-            case "price":
-                bPrice = true;
-                break;
-        }
+//        switch (qName) {
+//            case "title":
+//                bTitle = true;
+//                break;
+//        }
     }
 
     @Override
@@ -80,36 +63,12 @@ public class SAX_Ex04 extends DefaultHandler{
         if (ttyear) {
             year = Integer.parseInt(new String(ch, start, length));
         }
-
-        
-        /**
-         * *******EXTRA*******
-         */
         
         if (bTitle) {
             title = new String(ch, start, length);
         }
-
-        if (bYear) {
-            yearBook = Integer.parseInt(new String(ch, start, length));
-        }
         
-        if (bPrice) {
-            priceBook = Double.parseDouble(new String(ch, start, length));
-            if (price > 150 && year > 2010) {
-                System.err.print(yearBook + "  ");
-                System.err.print(title + "  ");
-                System.err.println(priceBook);
-            } else {
-                System.out.print(yearBook + "  ");
-                System.out.print(title + "  ");
-                System.out.println(priceBook);
-            }
-        }
-        
-        bYear = false;
-        bPrice = false;
-        bTitle = false;
+//        bTitle = false;
     }
 
     @Override
@@ -122,11 +81,23 @@ public class SAX_Ex04 extends DefaultHandler{
         if (qName.equalsIgnoreCase("YEAR")) {
             ttyear = false;
         }
+        
+        if (qName.equalsIgnoreCase("TITLE")) {
+            bTitle = false;
+        }
 
         if (qName.equalsIgnoreCase("BOOK")) {
             if (price > 150 && year > 2010) {
+                System.err.print(year + "  ");
+                System.err.print(title + "  ");
+                System.err.println(price);
                 qtd++;
-            }
+//                bTitle = false;
+            } else {
+                System.out.print(year + "  ");
+                System.out.print(title + "  ");
+                System.out.println(price);
+            }            
         }
     }
 
