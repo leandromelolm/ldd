@@ -1,16 +1,13 @@
 package stax;
 
+import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -31,12 +28,15 @@ public class StAX_1 {
         Reader reader = new FileReader("web/products.xml");
         XMLStreamReader xmlsr = xmlif.createXMLStreamReader(reader);
         
-        XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newFactory();
-        Writer writer = new FileWriter("Q1.xml");
-//        Writer writer = new FileWriter("Q1.html");
-        XMLStreamWriter xMLStreamWriter = xMLOutputFactory.createXMLStreamWriter(writer);
+//        XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newFactory();
+        XMLOutputFactory xMLOutputFactory = XMLOutputFactory.newInstance(); 
         
+//        Writer writer = new FileWriter("Q1.xml");
+        Writer writer = new FileWriter("Q1.html");
         
+//        XMLStreamWriter xMLStreamWriter = xMLOutputFactory.createXMLStreamWriter(writer);
+        XMLStreamWriter xMLStreamWriter = new IndentingXMLStreamWriter(xMLOutputFactory.createXMLStreamWriter(writer));
+
         boolean bName = false;
         boolean bLine = false;
         boolean bVendor = false;
@@ -70,7 +70,6 @@ public class StAX_1 {
         xMLStreamWriter.writeEndElement();
         xMLStreamWriter.writeStartElement("tbody");
         
-        
         while (xmlsr.hasNext()) {
             switch (xmlsr.next()){
                 case XMLStreamReader.START_ELEMENT:
@@ -103,8 +102,6 @@ public class StAX_1 {
 //                        System.out.println(vendor);
 //                        System.out.println(quantityInStock);
 //                        System.out.println(buyPrice);
-                        
-                        
 
                         xMLStreamWriter.writeStartElement("tr");
                         xMLStreamWriter.writeStartElement("td");
